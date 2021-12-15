@@ -1,0 +1,84 @@
+#include<stdio.h>
+#include<string.h>
+ 
+int main() {
+    char a[20], b[20];
+    char sum[20], complement[20];
+    int i, length;
+    
+    /* Consider two binary input strings.*/
+	printf("Enter First Binary String: \n");
+    scanf("%s",&a);
+    printf("\n");
+    printf("Enter Second Binary String:	\n");
+    scanf("%s",&b);
+    
+    /* Calculate their binary sum to get the checksum that will be sent to the recipient or destination. */
+    if (strlen(a) == strlen(b)) {
+		length = strlen(a);					/* The initial binary's length will be used in the next step. */
+		char carry = '0';
+        
+        /* There are six possible outcomes in binary addition. */
+		for (i = length - 1; i >= 0; i--) {
+			if (a[i] == '0' && b[i] == '0' && carry == '0') {			/*Sum=0 and carry=0 if both bits are 0 and carry is 0.*/
+                sum[i] = '0';
+                carry = '0';
+            }
+            else if (a[i] == '0' && b[i] == '0' && carry == '1') {		/* sum=1 and carry=0 if both bits are 0 and carry is 1, */
+                sum[i] = '1';
+                carry = '0';
+            }
+            else if (a[i] == '0' && b[i] == '1' && carry == '0') {		/* sum=1 and carry=0 if either bit is 1 and carry is 0, */
+                sum[i] = '1';
+                carry = '0';
+            }
+            else if (a[i] == '0' && b[i] == '1' && carry == '1') {		/* sum=0 and carry=1 if either bit is 1 and carry is 1, */
+                sum[i] = '0';
+                carry = '1';
+            }
+            else if (a[i] == '1' && b[i] == '0' && carry == '0') {		/* sum=1 and carry=0 if either bit is 1 and carry is 0, */
+                sum[i] = '1';
+                carry = '0';
+            }
+            else if (a[i] == '1' && b[i] == '0' && carry == '1') {		/* sum=0 and carry=1 if either bit is 1 and carry is 1, */
+                sum[i] = '0';
+                carry = '1';
+            }
+            else if (a[i] == '1' && b[i] == '1' && carry == '0') {		/*  sum=0 and carry=1 if both bits are 1 and carry is 0,*/
+                sum[i] = '0';
+                carry = '1';
+            }
+            else if (a[i] == '1' && b[i] == '1' && carry == '1') {		/*  sum=1 and carry=1 if both bits are 1 and carry is 1,*/
+                sum[i] = '1';
+                carry = '1';	
+            }
+            else
+                break;
+        }
+     
+	 /* 
+	  * We must add the binary strings from the rightmost end, i.e. LSB to MSB, while doing the addition.
+	  * When performing a binary sum, the 1's complement is obtained by reversing 1's to 0's and vice versa.  
+	  */ 
+	  
+	printf("\nSum:  %c%s", carry, sum);
+	for (i = 0; i < length; i++) {				/* the value of sum is reversed from 1's to 0's and vice versa */
+            if (sum[i] == '0') 
+				complement[i] = '1';
+            else
+                complement[i] = '0';
+        }
+        
+        if (carry == '1')						/* the value of carry is reversed from 1's to 0's and vice versa */			
+            carry = '0';
+        else
+            carry = '1';
+     
+	 /* The resulting 1’s complement is the Checksum */  
+	printf("\nChecksum:  %c%s", carry, complement);
+	}
+	
+	else {
+	printf("\nWrong Input Strings!");
+	}
+}
